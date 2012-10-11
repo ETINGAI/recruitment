@@ -79,7 +79,7 @@ void AddrBook::add(Person &p)
 	book.push_back(p);
 }
 
-//print data from linklist
+//print record
 void AddrBook::print()
 {
 	for(list<Person>::iterator it = book.begin();it != book.end();it++)
@@ -106,7 +106,7 @@ list<Person>::iterator AddrBook::find(string& key,string &flag)
 	{
 		if (flag.find(string("name"),0) != string::npos)
 		{
-			if(key == it->getName())
+			if(key == it->getName()||(((it->getName().substr(0,(key.length()-2)) == key.substr(0,(key.length()-2)))&&(key.substr((key.length()-2),key.length())==".*"))))
 			{
 				return it;
 			}
@@ -129,7 +129,7 @@ list<Person>::iterator AddrBook::find(string& key,string &flag)
 	return it;
 }
 
-//delete data from linklist
+//delete record
 int AddrBook::del(string& key,string &flag)
 {
 	int count = 0;
@@ -145,8 +145,8 @@ int AddrBook::del(string& key,string &flag)
 	return count;
 }
 
-//search data from linklist according to key
-list<Person> AddrBook::search(string& key,string &flag)
+//search record according to key
+list<Person> AddrBook::search(string &key,string &flag)
 {
 	int count = 0;
 	list<Person>  lp;
@@ -154,7 +154,7 @@ list<Person> AddrBook::search(string& key,string &flag)
 	{
 		if (flag.find(string("name"),0) != string::npos)
 		{
-			if(key == it->getName())
+			if(key == it->getName())		
 			{
 				lp.push_back(*it);
 				it->print();
