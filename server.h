@@ -86,13 +86,15 @@ int HandleMsg(const char *cmdline,AddrBook *pBook,SOCKET CientSocket)
 
 	if(cmdline == NULL)
 		return -1;  //error exit,thread end.
-	cout<<"cmdline:"<<cmdline<<"@"<<endl;
-	if(strstr(cmdline,"quit") != NULL)
+	cout<<"cmdline:"<<cmdline<<" "<<strlen(cmdline)<<" "<<"@"<<endl;
+	
+	
+	if(strcmp(cmdline,"quit") == 0)
 	{
 		pBook->saveData();
 		return 0;//normal termination,thread exit
 	}
-	else if(strstr(cmdline,"add") !=NULL)
+	else if(strcmp(cmdline,"add") ==0)
 	{
 		char buffer[MAX_PATH];
 
@@ -117,7 +119,7 @@ int HandleMsg(const char *cmdline,AddrBook *pBook,SOCKET CientSocket)
 		SendInfo(CientSocket,"address entry added\r\n");
 		return 1;
 	}
-	else if(strstr(cmdline,"search") !=NULL)
+	else if(strcmp(cmdline,"search") ==0)
 	{
 		char buffer[MAX_PATH];
 		SendInfo(CientSocket,"by (name|mobile|address): ");
@@ -146,7 +148,7 @@ int HandleMsg(const char *cmdline,AddrBook *pBook,SOCKET CientSocket)
 		SendInfo(CientSocket,(char *)rs.c_str());
 		return 1;
 	}
-	else if(strstr(cmdline,"remove") !=NULL)
+	else if(strcmp(cmdline,"remove") ==0)
 	{
 		char buffer[MAX_PATH];
 		SendInfo(CientSocket,"by (name|mobile|address): ");
@@ -171,7 +173,7 @@ int HandleMsg(const char *cmdline,AddrBook *pBook,SOCKET CientSocket)
 		SendInfo(CientSocket,buffer);
 		return 1;
 	}
-	else if(strstr(cmdline,"list") !=NULL)
+	else if(strcmp(cmdline,"list") ==0)
 	{
 		for(list<Person>::iterator it = pBook->getBook()->begin(); it != pBook->getBook()->end();it++)
 		{
@@ -180,7 +182,7 @@ int HandleMsg(const char *cmdline,AddrBook *pBook,SOCKET CientSocket)
 		}
 		return 1;
 	}
-	else if(strstr(cmdline,"help") !=NULL)
+	else if(strcmp(cmdline,"help") ==0)
 	{
 			SendInfo(CientSocket,"Help Info....\r\n");
 		return 1;
@@ -219,7 +221,10 @@ void* ServerThread(void* lpParameter)
 			break;
 		}
 		cout<<"received a msg is:"<<RecvBuffer<<endl;
-
+		
+		char *p = NULL;
+		p = strchr(RecvBuffer,'\r');
+		*p = '\0';
 	
 		pthread_mutex_lock(&mutex);
 		Ret = HandleMsg(RecvBuffer,pBook,CientSocket);
