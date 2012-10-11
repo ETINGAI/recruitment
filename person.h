@@ -67,7 +67,7 @@ PDATA Person::getData()
 
 void Person::print()
 {
-	cout<<"Name :"<<name<<" mobile :"<<phone<<" Addr :"<<addr<<endl;
+	cout<<"name :"<<name<<" mobile :"<<phone<<" address :"<<addr<<endl;
 }
 
 string Person::getName()
@@ -89,7 +89,8 @@ string Person::getPhone()
 string Person::toString()
 {
 	char buffer[1024] ={0};
-	sprintf(buffer,"Name : %s mobile : %s Addr : %s\r\n",name.c_str(),phone.c_str(),addr.c_str());
+	sprintf(buffer,"name : %s mobile : %s address : %s\r\n",name.c_str(),phone.c_str(),addr.c_str());
 	return string(buffer);
 }
 #endif
+
